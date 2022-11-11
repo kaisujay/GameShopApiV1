@@ -18,6 +18,7 @@ namespace GameShopApiV1.Controllers
         }
 
         [HttpPost]
+        [Route("Create")]
         public async Task<IActionResult> CreatePlayerAsync([FromBody]RegisterPlayerDto registerPlayer)
         {
             if(ModelState.IsValid)
@@ -40,6 +41,21 @@ namespace GameShopApiV1.Controllers
         {
             var player = await _playerRepository.GetPlayerDetailsByIdAsync(id);
             return Ok(player);
+        }
+
+        [HttpPost]  //This need to be a "post" because we are posting UserName and Password to API.
+        [Route("LogIn")]
+        public async Task<IActionResult> LogInPlayerAsync([FromBody]LogInPlayerDto logInPlayer)
+        {
+            if(ModelState.IsValid)
+            {
+                var res = await _playerRepository.LogInPlayerAsync(logInPlayer);
+                if(res.Succeeded)
+                {
+                    return Ok("LogIn Successful");
+                }
+            }
+            return Unauthorized("UserName or Password does not match");
         }
 
         //// GET: api/<PlayerController>
