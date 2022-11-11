@@ -1,6 +1,7 @@
 ﻿using GameShopApiV1.Models;
 using GameShopApiV1.Models.DTOs.GameDto;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace GameShopApiV1.Data.Repository
@@ -41,6 +42,20 @@ namespace GameShopApiV1.Data.Repository
             return allGamesList;
         }
 
+        public async Task<CreateAndDisplayGameDto> GetSearchedGameByIdAsync(int value)
+        {
+            var game = await _shopApiDbContext.Games
+               .Where(x => x.Id == value)
+               .Select(x => new CreateAndDisplayGameDto()
+               {
+                   Name = x.Name,
+                   Price = x.Price,
+                   GameDetails = x.GameDetails
+               }).FirstOrDefaultAsync();
+
+            return game;
+        }
+
         public async Task<int> CreateGamesAsync(CreateAndDisplayGameDto createGame)
         {
             var game = new GameModel()
@@ -53,6 +68,6 @@ namespace GameShopApiV1.Data.Repository
             _shopApiDbContext.Games.Add(game);
             await _shopApiDbContext.SaveChangesAsync();
             return game.Id;
-        }
+        }       
     }
 }

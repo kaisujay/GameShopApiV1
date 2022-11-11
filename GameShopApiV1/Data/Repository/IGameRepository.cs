@@ -7,5 +7,6 @@ namespace GameShopApiV1.Data.Repository
         Task<int> CreateGamesAsync(CreateAndDisplayGameDto createGame);
         Task<IEnumerable<CreateAndDisplayGameDto>> GetAllGamesAsync();
         Task<IEnumerable<CreateAndDisplayGameDto>> GetSearchedGamesAsync(string value);
+        Task<CreateAndDisplayGameDto> GetSearchedGameByIdAsync(int value);
     }
 }

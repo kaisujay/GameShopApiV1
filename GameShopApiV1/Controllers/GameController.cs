@@ -40,6 +40,18 @@ namespace GameShopApiV1.Controllers
             return Ok(games);
         }
 
+        [HttpGet]
+        [Route("SearchedGamesById/{value}")]
+        public async Task<IActionResult> GetSearchedGamesByIdAsync(int value)
+        {
+            var games = await _gameRepository.GetSearchedGameByIdAsync(value);
+            if (games == null)
+            {
+                return NotFound("No games found");
+            }
+            return Ok(games);
+        }
+
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> CreateGameAsync([FromBody] CreateAndDisplayGameDto createGame)
