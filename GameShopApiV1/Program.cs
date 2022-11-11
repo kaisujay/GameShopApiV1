@@ -1,4 +1,5 @@
 using GameShopApiV1.Data;
+using GameShopApiV1.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<GameShopApiDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("GameShopApiDbConnnectionString"));
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<PlayerModel, IdentityRole>()
     .AddEntityFrameworkStores<GameShopApiDbContext>();
 
 var app = builder.Build();
