@@ -12,5 +12,6 @@ namespace GameShopApiV1.Data
         }
 
         public DbSet<PlayerModel> Players { get; set; }
+        public DbSet<GameModel> Games { get; set; }
     }
 }

@@ -38,6 +38,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 #region Dependencys
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 #endregion
 
 var app = builder.Build();
