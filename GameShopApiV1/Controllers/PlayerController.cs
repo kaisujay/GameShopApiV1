@@ -50,12 +50,13 @@ namespace GameShopApiV1.Controllers
             if(ModelState.IsValid)
             {
                 var res = await _playerRepository.LogInPlayerAsync(logInPlayer);
-                if(res.Succeeded)
+                if(string.IsNullOrEmpty(res))
                 {
-                    return Ok("LogIn Successful");
+                    return Unauthorized(); ;
                 }
+                return Ok(res);
             }
-            return Unauthorized("UserName or Password does not match");
+            return BadRequest();
         }
     }
 }

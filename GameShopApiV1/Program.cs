@@ -1,8 +1,11 @@
 using GameShopApiV1.Data;
 using GameShopApiV1.Data.Repository;
 using GameShopApiV1.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +25,30 @@ builder.Services.AddDbContext<GameShopApiDbContext>(option =>
 
 #region AddedDbContextWithUserAndRole
 builder.Services.AddIdentity<PlayerModel, IdentityRole>()
-    .AddEntityFrameworkStores<GameShopApiDbContext>();
+    .AddEntityFrameworkStores<GameShopApiDbContext>()
+    .AddDefaultTokenProviders();
+#endregion
+
+#region JWTSetUp
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(option =>
+    {
+        option.SaveToken = true;
+        option.RequireHttpsMetadata = false;
+        option.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["JWT:ValidAudience"],
+            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+        };
+    });
 #endregion
 
 #region IdentityPasswordSettingOverride
@@ -51,7 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();    //Added Because using Identity
+app.UseAuthentication();    //Added Because using Identity/Jwt
 app.UseAuthorization();
 
 app.MapControllers();
