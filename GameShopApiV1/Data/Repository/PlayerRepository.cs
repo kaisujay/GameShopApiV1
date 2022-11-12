@@ -26,7 +26,7 @@ namespace GameShopApiV1.Data.Repository
             };
 
             await _userManager.CreateAsync(newPlayer, registerPlayer.Password);
-
+            await _userManager.AddToRoleAsync(newPlayer,"User");    //Adding a Role Manually
             var newCreatedPlayerId = newPlayer.Id;
             return newCreatedPlayerId;
         }

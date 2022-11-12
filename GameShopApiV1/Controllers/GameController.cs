@@ -1,7 +1,6 @@
 ﻿using GameShopApiV1.Data.Repository;
 using GameShopApiV1.Models.DTOs.GameDto;
-using GameShopApiV1.Models.DTOs.PlayerDto;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameShopApiV1.Controllers
@@ -54,6 +53,7 @@ namespace GameShopApiV1.Controllers
 
         [HttpPost]
         [Route("Create")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateGameAsync([FromBody] CreateAndDisplayGameDto createGame)
         {
             if (ModelState.IsValid)
