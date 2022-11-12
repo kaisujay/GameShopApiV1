@@ -1,6 +1,7 @@
 ﻿using GameShopApiV1.Data.Repository;
 using GameShopApiV1.Models.DTOs.GameDto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameShopApiV1.Controllers
@@ -60,6 +61,61 @@ namespace GameShopApiV1.Controllers
             {
                 var createdGamerId = await _gameRepository.CreateGamesAsync(createGame);
                 return StatusCode(201, createdGamerId);
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        [Route("UpdateByPut")]
+        public async Task<IActionResult> UpdateGameAsync([FromQuery] int gameId, [FromBody] GameDto updateGame)
+        {
+            if(ModelState.IsValid)
+            {
+                var updatedGame = await _gameRepository.UpdateGameAsync(gameId,updateGame);
+                return Ok(updatedGame);
+            }
+            return BadRequest();
+        }
+
+        [HttpPatch]
+        [Route("UpdateByPatch/{gameId}")]
+        public async Task<IActionResult> UpdateGamepatchAsync([FromRoute] int gameId, [FromBody] JsonPatchDocument updateGame)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedGame = await _gameRepository.UpdateGamePatchAsync(gameId, updateGame);
+                return Ok(updatedGame);
+            }
+            return BadRequest();
+
+            #region Precess of Calling HttpPatch
+            /*
+             * In Postman
+             * -----------------
+                 * [ 
+                        { 
+                            "op": "replace", 
+                            "path": "Name", 
+                        "value": "FIFA NEW" 
+                        }, 
+                        {
+                        "op": "remove", 
+                        "path": "GameDetails" 
+                        } 
+                    ]       
+             */
+
+            #endregion
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> DeleteGameAsync([FromHeader] int gameId)
+        {
+            if (ModelState.IsValid)
+            {
+                var deleteGame = await _gameRepository.DeleteGameAsync(gameId);
+                return Ok(deleteGame);
             }
             return BadRequest();
         }
