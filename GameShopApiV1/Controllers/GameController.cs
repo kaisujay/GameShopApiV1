@@ -54,7 +54,7 @@ namespace GameShopApiV1.Controllers
         [HttpPost]
         [Route("Create")]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> CreateGameAsync([FromBody] CreateAndDisplayGameDto createGame)
+        public async Task<IActionResult> CreateGameAsync([FromBody] GameDto createGame)
         {
             if (ModelState.IsValid)
             {

@@ -15,10 +15,10 @@ namespace GameShopApiV1.Data.Repository
             _shopApiDbContext = shopApiDbContext;
         }
 
-        public async Task<IEnumerable<CreateAndDisplayGameDto>> GetAllGamesAsync()
+        public async Task<IEnumerable<GameDto>> GetAllGamesAsync()
         {
             var allGamesList = await _shopApiDbContext.Games
-                .Select(x => new CreateAndDisplayGameDto()
+                .Select(x => new GameDto()
                 {
                     Name = x.Name,
                     Price = x.Price,
@@ -28,11 +28,11 @@ namespace GameShopApiV1.Data.Repository
             return allGamesList;
         }
 
-        public async Task<IEnumerable<CreateAndDisplayGameDto>> GetSearchedGamesAsync(string value)
+        public async Task<IEnumerable<GameDto>> GetSearchedGamesAsync(string value)
         {
             var allGamesList = await _shopApiDbContext.Games
                 .Where(x => x.Name.Contains(value))
-                .Select(x => new CreateAndDisplayGameDto()
+                .Select(x => new GameDto()
                 {
                     Name = x.Name,
                     Price = x.Price,
@@ -42,11 +42,11 @@ namespace GameShopApiV1.Data.Repository
             return allGamesList;
         }
 
-        public async Task<CreateAndDisplayGameDto> GetSearchedGameByIdAsync(int value)
+        public async Task<GameDto> GetSearchedGameByIdAsync(int value)
         {
             var game = await _shopApiDbContext.Games
                .Where(x => x.Id == value)
-               .Select(x => new CreateAndDisplayGameDto()
+               .Select(x => new GameDto()
                {
                    Name = x.Name,
                    Price = x.Price,
@@ -56,7 +56,7 @@ namespace GameShopApiV1.Data.Repository
             return game;
         }
 
-        public async Task<int> CreateGamesAsync(CreateAndDisplayGameDto createGame)
+        public async Task<int> CreateGamesAsync(GameDto createGame)
         {
             var game = new GameModel()
             {

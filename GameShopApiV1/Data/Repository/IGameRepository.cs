@@ -4,9 +4,9 @@ namespace GameShopApiV1.Data.Repository
 {
     public interface IGameRepository
     {
-        Task<int> CreateGamesAsync(CreateAndDisplayGameDto createGame);
-        Task<IEnumerable<CreateAndDisplayGameDto>> GetAllGamesAsync();
-        Task<IEnumerable<CreateAndDisplayGameDto>> GetSearchedGamesAsync(string value);
-        Task<CreateAndDisplayGameDto> GetSearchedGameByIdAsync(int value);
+        Task<int> CreateGamesAsync(GameDto createGame);
+        Task<IEnumerable<GameDto>> GetAllGamesAsync();
+        Task<IEnumerable<GameDto>> GetSearchedGamesAsync(string value);
+        Task<GameDto> GetSearchedGameByIdAsync(int value);
     }
 }

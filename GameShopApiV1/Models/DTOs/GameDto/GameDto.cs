@@ -2,7 +2,7 @@
 
 namespace GameShopApiV1.Models.DTOs.GameDto
 {
-    public class CreateAndDisplayGameDto
+    public class GameDto
     {
         [Required(ErrorMessage ="Name is Required")]
         [MaxLength(50)]
