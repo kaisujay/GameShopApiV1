@@ -29,8 +29,8 @@ namespace GameShopApiV1.Controllers
         }
 
         [HttpGet]
-        [Route("SearchedGames/{value}")]
-        public async Task<IActionResult> GetSearchedGamesAsync(string value)
+        [Route("SearchedGames")]
+        public async Task<IActionResult> GetSearchedGamesAsync([FromQuery] string value)
         {
             var games = await _gameRepository.GetSearchedGamesAsync(value);
             if (games.Count() == 0)
