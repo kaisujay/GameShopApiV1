@@ -4,6 +4,7 @@ using GameShopApiV1.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -68,6 +69,26 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 #endregion
 
+#region CORSPolicyForAngularApp
+builder.Services.AddCors(option =>
+{
+    /* This "AddDefaultPolicy" is a default setting from Microsoft */
+    //option.AddDefaultPolicy(
+    //        builder => builder
+    //        .AllowAnyOrigin()         //We can also Specify the "Origin" with "WithOrigins" like - .WithOrigins("http://localhost:4200")
+    //        .AllowAnyHeader());    //We can also Specify the "Header" with "WithHeader"
+    //        .AllowAnyMethod()      //We can also Specify the "Method" with "WithMethod"
+
+    /* This "AddPolicy" is a custome setting */
+    option.AddPolicy("customCors",
+        builder => builder
+        .WithOrigins("http://localhost:4200")       //This is the Angular App I am using
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        );
+});
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,6 +97,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();  // This is for "AddDefaultPolicy"
+app.UseCors("customCors");
 
 app.UseAuthentication();    //Added Because using Identity/Jwt
 app.UseAuthorization();
