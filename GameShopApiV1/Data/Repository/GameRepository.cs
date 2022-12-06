@@ -21,6 +21,7 @@ namespace GameShopApiV1.Data.Repository
             var allGamesList = await _shopApiDbContext.Games
                 .Select(x => new GameDto()
                 {
+                    Id=x.Id,
                     Name = x.Name,
                     Price = x.Price,
                     GameDetails = x.GameDetails
@@ -35,6 +36,7 @@ namespace GameShopApiV1.Data.Repository
                 .Where(x => x.Name.Contains(value))
                 .Select(x => new GameDto()
                 {
+                    Id = x.Id,
                     Name = x.Name,
                     Price = x.Price,
                     GameDetails = x.GameDetails
@@ -49,6 +51,7 @@ namespace GameShopApiV1.Data.Repository
                .Where(x => x.Id == value)
                .Select(x => new GameDto()
                {
+                   Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
                    GameDetails = x.GameDetails

@@ -4,6 +4,8 @@ namespace GameShopApiV1.Models.DTOs.GameDto
 {
     public class GameDto
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage ="Name is Required")]
         [MaxLength(50)]
         public string? Name { get; set; }
