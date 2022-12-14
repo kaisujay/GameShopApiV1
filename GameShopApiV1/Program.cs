@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,20 @@ builder.Services.AddDbContext<GameShopApiDbContext>(option =>
 builder.Services.AddIdentity<PlayerModel, IdentityRole>()
     .AddEntityFrameworkStores<GameShopApiDbContext>()
     .AddDefaultTokenProviders();
+#endregion
+
+#region Authorized icon on Swagger screen
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 #endregion
 
 #region JWTSetUp
