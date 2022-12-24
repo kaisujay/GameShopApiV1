@@ -29,7 +29,7 @@ namespace GameShopApiV1.Data.Repository
         public async Task<IEnumerable<DisplayCartDto>> DisplayCartAsync(string playerId)
         {
             var r = await _shopApiDbContext.Carts.ToListAsync();
-
+            dynamic xx;
             foreach (var item in r)
             {
                await _shopApiDbContext.Entry(item).Reference(x => x.Game).LoadAsync();
