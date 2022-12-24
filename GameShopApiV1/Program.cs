@@ -22,7 +22,9 @@ builder.Services.AddSwaggerGen();
 #region DbContext
 builder.Services.AddDbContext<GameShopApiDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("GameShopApiDbConnnectionString"));
+    option
+    .UseLazyLoadingProxies()
+    .UseSqlServer(builder.Configuration.GetConnectionString("GameShopApiDbConnnectionString"));
 });
 #endregion
 

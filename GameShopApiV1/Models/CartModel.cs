@@ -6,9 +6,9 @@ namespace GameShopApiV1.Models
     {
         [Key]
         public int Id { get; set; }
-        public PlayerModel? Player { get; set; }
+        public virtual PlayerModel? Player { get; set; }
         public string? PlayerId { get; set; }
-        public GameModel? Game { get; set; }
+        public virtual GameModel? Game { get; set; }
         public int GameId { get; set; }
     }
 }
