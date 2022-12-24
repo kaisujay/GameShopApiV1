@@ -28,15 +28,6 @@ namespace GameShopApiV1.Data.Repository
 
         public async Task<IEnumerable<DisplayCartDto>> DisplayCartAsync(string playerId)
         {
-            var r = await _shopApiDbContext.Carts.ToListAsync();
-            dynamic xx;
-            foreach (var item in r)
-            {
-               await _shopApiDbContext.Entry(item).Reference(x => x.Game).LoadAsync();
-            }
-
-            var x = r.FirstOrDefault();
-
             var cart = await _shopApiDbContext.Carts
                  .Include(x => x.Player).Include(x => x.Game)
                  .Where(x => x.Player.Id == x.PlayerId && x.Player.Id == playerId)
