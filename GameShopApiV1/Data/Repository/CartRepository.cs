@@ -30,6 +30,11 @@ namespace GameShopApiV1.Data.Repository
         {
             var r = await _shopApiDbContext.Carts.ToListAsync();
 
+            foreach (var item in r)
+            {
+               await _shopApiDbContext.Entry(item).Reference(x => x.Game).LoadAsync();
+            }
+
             var x = r.FirstOrDefault();
 
             var cart = await _shopApiDbContext.Carts
