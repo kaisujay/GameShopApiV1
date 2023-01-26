@@ -85,9 +85,9 @@ namespace GameShopApiV1.Data.Repository
 
         private string GenerateToken(LogInPlayerDto logInPlayer, IList<string> loggedInPlayerRole)
         {
-            var authClaims = new List<Claim>
+            var authClaims = new List<Claim>        // This is "Subject"
             {
-                new Claim(ClaimTypes.Name, logInPlayer.UserName),
+                new Claim(ClaimTypes.Name, logInPlayer.UserName),   
                 new Claim(ClaimTypes.Role, loggedInPlayerRole[0]),    //Useing THE Role in JWT token generation
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

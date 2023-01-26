@@ -1,11 +1,13 @@
 ﻿using GameShopApiV1.Data.Repository;
 using GameShopApiV1.Models.DTOs.GameDto;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameShopApiV1.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
